@@ -1,0 +1,42 @@
+{
+  "generated_utc": "2026-11-12T06:34:30+00:00",
+  "machine": "Linux x86_64, Python 3.13.18, NumPy 2.5.4",
+  "orbit": {
+    "m1": 1.0,
+    "m2": 0.001,
+    "a": 1.0,
+    "e": 0.5
+  },
+  "n_orbits": 100,
+  "steps_per_orbit": 500,
+  "summary": {
+    "euler": {
+      "max_dE_rel": 0.9723374059729856,
+      "final_dE_rel": 0.971643330724402,
+      "max_dE_first_10pct": 0.6766138784019762,
+      "max_dE_last_10pct": 0.9716444200107555,
+      "max_dL_rel": 0.5526272906288733
+    },
+    "leapfrog": {
+      "max_dE_rel": 0.0004293372676776602,
+      "final_dE_rel": 0.0003603979191283911,
+      "max_dE_first_10pct": 0.00042638288876571456,
+      "max_dE_last_10pct": 0.0004293267604853119,
+      "max_dL_rel": 2.2965150239299714e-14
+    },
+    "rk4": {
+      "max_dE_rel": 9.741148923421388e-07,
+      "final_dE_rel": 9.500830114994346e-07,
+      "max_dE_first_10pct": 1.1904862943274097e-07,
+      "max_dE_last_10pct": 9.741148923421388e-07,
+      "max_dL_rel": 1.4698028286637153e-07
+    },
+    "leapfrog, 4x steps (same cost as rk4)": {
+      "max_dE_rel": 2.6633004793515195e-05,
+      "final_dE_rel": 2.3393601386490357e-07,
+      "max_dE_first_10pct": 2.6620684700817283e-05,
+      "max_dE_last_10pct": 2.6633004793515195e-05,
+      "max_dL_rel": 2.998227947908574e-14
+    }
+  }
+}
