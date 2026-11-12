@@ -5,7 +5,7 @@ import pytest
 
 from nbody.diagnostics import angular_momentum, linear_momentum, total_energy
 from nbody.forces import make_direct_accel
-from nbody.integrators import INTEGRATORS, euler_step, leapfrog_step, rk4_step
+from nbody.integrators import euler_step, leapfrog_step, rk4_step
 from nbody.simulation import System, run
 from nbody.twobody import kepler_period, measured_period, relative_position, two_body_system
 

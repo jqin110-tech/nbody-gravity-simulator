@@ -19,15 +19,20 @@ N, EPS, SEED = 20_000, 0.01, 42  # Plummer sphere in N-body units (G = M = scale
 THETAS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1.0, 1.2]
 
 
-def timed(fn, *args, **kwargs) -> tuple[np.ndarray, float]:
-    start = time.perf_counter()
-    out = fn(*args, **kwargs)
-    return out, time.perf_counter() - start
+def timed(fn, *args) -> tuple[np.ndarray, float]:
+    """Result and the fastest wall time of three calls."""
+    best = float("inf")
+    for _ in range(3):
+        start = time.perf_counter()
+        out = fn(*args)
+        best = min(best, time.perf_counter() - start)
+    return out, best
 
 
 def main() -> None:
     s = plummer_sphere(N, np.random.default_rng(SEED))
-    bh_accel(s.pos[:100], s.mass[:100], 0.5, EPS, 1.0)  # compile before timing
+    bh_accel(s.pos[:100], s.mass[:100], 0.5, EPS, 1.0)  # compile both kernels before timing
+    direct_accel_compiled(s.pos[:100], s.mass[:100], EPS, 1.0)
     exact, t_direct = timed(direct_accel_compiled, s.pos, s.mass, EPS, 1.0)
     exact_norm = np.linalg.norm(exact, axis=1)
     rows = []

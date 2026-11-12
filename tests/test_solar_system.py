@@ -3,13 +3,13 @@
 import numpy as np
 import pytest
 
-from nbody.constants import DAYS_PER_YEAR
+from nbody.constants import DAYS_PER_YEAR, G
 from nbody.diagnostics import linear_momentum
 from nbody.forces import make_direct_accel
 from nbody.integrators import leapfrog_step
-from nbody.simulation import run
+from nbody.simulation import System, run
 from nbody.solar_system import load_solar_system, read_reference_periods
-from nbody.twobody import measured_period
+from nbody.twobody import kepler_period, measured_period
 
 
 def test_data_loads_at_the_recorded_epoch() -> None:
@@ -42,3 +42,18 @@ def test_reference_periods_are_sidereal_not_tropical() -> None:
     periods = read_reference_periods()
     assert set(periods) == {"Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"}
     assert all(p["sidereal"] > p["tropical"] for p in periods.values())
+
+
+@pytest.mark.parametrize("planet", [1, 5, 8])  # Mercury, Jupiter, Neptune
+def test_each_planet_alone_with_the_sun_obeys_kepler(planet: int) -> None:
+    """With the other planets removed, the real initial conditions must give a Kepler orbit."""
+    full, _ = load_solar_system()
+    pair = System(full.pos[[0, planet]], full.vel[[0, planet]], full.mass[[0, planet]])
+    rel_pos, rel_vel = pair.pos[1] - pair.pos[0], pair.vel[1] - pair.vel[0]
+    total = pair.mass.sum()
+    a = 1.0 / (2.0 / np.linalg.norm(rel_pos) - rel_vel @ rel_vel / (G * total))  # vis-viva
+    T = kepler_period(a, total)
+    n = 20_000
+    traj = run(pair, leapfrog_step, make_direct_accel(pair.mass), T / n, int(1.05 * n))
+    T_sim = measured_period(traj.times, traj.pos[:, 1] - traj.pos[:, 0])
+    assert T_sim == pytest.approx(T, rel=1e-6)
