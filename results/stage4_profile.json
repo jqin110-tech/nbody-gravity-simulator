@@ -1,0 +1,10 @@
+{
+  "generated_utc": "2026-11-12T06:46:35+00:00",
+  "machine": "Linux x86_64, Python 3.13.18, NumPy 2.5.4",
+  "n": 2000,
+  "theta": 0.5,
+  "backend": "python",
+  "build_seconds": 0.027939606000018102,
+  "total_seconds": 2.5451416920000156,
+  "walk_fraction": 0.9890223769907039
+}

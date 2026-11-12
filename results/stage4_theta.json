@@ -1,0 +1,92 @@
+{
+  "generated_utc": "2026-11-12T06:46:28+00:00",
+  "machine": "Linux x86_64, Python 3.13.18, NumPy 2.5.4",
+  "n": 20000,
+  "softening": 0.01,
+  "model": "Plummer sphere, N-body units",
+  "seed": 42,
+  "backend": "numba (all threads)",
+  "direct_seconds": 1.0388128600000073,
+  "rows": [
+    {
+      "theta": 0.1,
+      "median_rel_error": 2.043185787305752e-05,
+      "p99_rel_error": 8.061788271139788e-05,
+      "max_rel_error": 0.0007643661058098509,
+      "seconds": 2.2805200539999078,
+      "speedup_vs_direct": 0.45551577508734736
+    },
+    {
+      "theta": 0.2,
+      "median_rel_error": 0.00012831107283252586,
+      "p99_rel_error": 0.0006739868218746136,
+      "max_rel_error": 0.0034716982177375607,
+      "seconds": 0.8630908680001994,
+      "speedup_vs_direct": 1.2035961664233101
+    },
+    {
+      "theta": 0.3,
+      "median_rel_error": 0.0003752170030686297,
+      "p99_rel_error": 0.0020307503872225804,
+      "max_rel_error": 0.0077911509794477566,
+      "seconds": 0.3397096290000263,
+      "speedup_vs_direct": 3.057943523879115
+    },
+    {
+      "theta": 0.4,
+      "median_rel_error": 0.0007948046647005524,
+      "p99_rel_error": 0.0049758795087831995,
+      "max_rel_error": 0.0328938552300082,
+      "seconds": 0.1834723579997899,
+      "speedup_vs_direct": 5.6619584079319285
+    },
+    {
+      "theta": 0.5,
+      "median_rel_error": 0.0014486188352868857,
+      "p99_rel_error": 0.008884843604955759,
+      "max_rel_error": 0.05855202225878443,
+      "seconds": 0.13055029499992088,
+      "speedup_vs_direct": 7.957185083347662
+    },
+    {
+      "theta": 0.6,
+      "median_rel_error": 0.0024019999757081633,
+      "p99_rel_error": 0.014643341169265333,
+      "max_rel_error": 0.10238900144553993,
+      "seconds": 0.08571963200006394,
+      "speedup_vs_direct": 12.11872748122895
+    },
+    {
+      "theta": 0.7,
+      "median_rel_error": 0.003750059499222314,
+      "p99_rel_error": 0.022634017083044796,
+      "max_rel_error": 0.14222050884067006,
+      "seconds": 0.05741244899991216,
+      "speedup_vs_direct": 18.093860793180877
+    },
+    {
+      "theta": 0.8,
+      "median_rel_error": 0.005698277725049978,
+      "p99_rel_error": 0.03216542806748319,
+      "max_rel_error": 0.18503905978626026,
+      "seconds": 0.04944627200006835,
+      "speedup_vs_direct": 21.00892176458867
+    },
+    {
+      "theta": 1.0,
+      "median_rel_error": 0.011825604309005838,
+      "p99_rel_error": 0.06712216225371932,
+      "max_rel_error": 0.2936836127923606,
+      "seconds": 0.03162889999998697,
+      "speedup_vs_direct": 32.843787169343074
+    },
+    {
+      "theta": 1.2,
+      "median_rel_error": 0.022485921527995473,
+      "p99_rel_error": 0.13531411837884316,
+      "max_rel_error": 0.5506760823788938,
+      "seconds": 0.023706015000016123,
+      "speedup_vs_direct": 43.8206446760158
+    }
+  ]
+}
