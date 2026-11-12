@@ -1,0 +1,26 @@
+{
+  "retrieved_utc": "2026-11-12T06:55:00+00:00",
+  "epoch_jd_tdb": "2460676.5",
+  "sources": {
+    "horizons_10.txt": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2710%27&OBJ_DATA=%27YES%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&TLIST=%272460676.5%27&TLIST_TYPE=%27JD%27&TIME_TYPE=%27TDB%27&OUT_UNITS=%27AU-D%27&VEC_TABLE=%272%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&CSV_FORMAT=%27YES%27",
+    "horizons_1.txt": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%271%27&OBJ_DATA=%27YES%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&TLIST=%272460676.5%27&TLIST_TYPE=%27JD%27&TIME_TYPE=%27TDB%27&OUT_UNITS=%27AU-D%27&VEC_TABLE=%272%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&CSV_FORMAT=%27YES%27",
+    "horizons_2.txt": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%272%27&OBJ_DATA=%27YES%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&TLIST=%272460676.5%27&TLIST_TYPE=%27JD%27&TIME_TYPE=%27TDB%27&OUT_UNITS=%27AU-D%27&VEC_TABLE=%272%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&CSV_FORMAT=%27YES%27",
+    "horizons_3.txt": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%273%27&OBJ_DATA=%27YES%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&TLIST=%272460676.5%27&TLIST_TYPE=%27JD%27&TIME_TYPE=%27TDB%27&OUT_UNITS=%27AU-D%27&VEC_TABLE=%272%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&CSV_FORMAT=%27YES%27",
+    "horizons_4.txt": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%274%27&OBJ_DATA=%27YES%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&TLIST=%272460676.5%27&TLIST_TYPE=%27JD%27&TIME_TYPE=%27TDB%27&OUT_UNITS=%27AU-D%27&VEC_TABLE=%272%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&CSV_FORMAT=%27YES%27",
+    "horizons_5.txt": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%275%27&OBJ_DATA=%27YES%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&TLIST=%272460676.5%27&TLIST_TYPE=%27JD%27&TIME_TYPE=%27TDB%27&OUT_UNITS=%27AU-D%27&VEC_TABLE=%272%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&CSV_FORMAT=%27YES%27",
+    "horizons_6.txt": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%276%27&OBJ_DATA=%27YES%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&TLIST=%272460676.5%27&TLIST_TYPE=%27JD%27&TIME_TYPE=%27TDB%27&OUT_UNITS=%27AU-D%27&VEC_TABLE=%272%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&CSV_FORMAT=%27YES%27",
+    "horizons_7.txt": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%277%27&OBJ_DATA=%27YES%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&TLIST=%272460676.5%27&TLIST_TYPE=%27JD%27&TIME_TYPE=%27TDB%27&OUT_UNITS=%27AU-D%27&VEC_TABLE=%272%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&CSV_FORMAT=%27YES%27",
+    "horizons_8.txt": "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%278%27&OBJ_DATA=%27YES%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&TLIST=%272460676.5%27&TLIST_TYPE=%27JD%27&TIME_TYPE=%27TDB%27&OUT_UNITS=%27AU-D%27&VEC_TABLE=%272%27&REF_PLANE=%27ECLIPTIC%27&REF_SYSTEM=%27ICRF%27&CSV_FORMAT=%27YES%27",
+    "jpl_astro_par.html": "https://ssd.jpl.nasa.gov/astro_par.html",
+    "nssdc_factsheet.html": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/",
+    "nssdc_notes.html": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/planetfact_notes.html",
+    "nssdc_mercury.html": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html",
+    "nssdc_venus.html": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html",
+    "nssdc_earth.html": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+    "nssdc_mars.html": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+    "nssdc_jupiter.html": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html",
+    "nssdc_saturn.html": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/saturnfact.html",
+    "nssdc_uranus.html": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranusfact.html",
+    "nssdc_neptune.html": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/neptunefact.html"
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "generated_utc": "2026-11-12T10:58:05+00:00",
+  "machine": "Linux x86_64, Python 3.13.18, NumPy 2.5.4",
+  "epoch_jd_tdb": 2460676.5,
+  "years_simulated": 200.0,
+  "integrator": "leapfrog",
+  "runs": [
+    {
+      "dt_days": 0.125,
+      "n_steps": 584411,
+      "wall_seconds": 16.337520463000004,
+      "epoch_jd": 2460676.5,
+      "max_rel_energy_error": 3.9904887003147316e-08
+    },
+    {
+      "dt_days": 0.0625,
+      "n_steps": 1168822,
+      "wall_seconds": 33.624696639999996,
+      "epoch_jd": 2460676.5,
+      "max_rel_energy_error": 9.982643924048517e-09
+    }
+  ],
+  "planets": [
+    {
+      "planet": "Mercury",
+      "simulated_days": 87.96986007165077,
+      "nasa_sidereal_days": 87.969,
+      "rel_error_vs_sidereal": 9.776985651504192e-06,
+      "nasa_tropical_days": 87.968,
+      "rel_error_vs_tropical": 2.1144866892139598e-05,
+      "turns": 830,
+      "rel_change_when_dt_halved": 2.2052374065751944e-05
+    },
+    {
+      "planet": "Venus",
+      "simulated_days": 224.7009959526703,
+      "nasa_sidereal_days": 224.701,
+      "rel_error_vs_sidereal": -1.8012068020513048e-08,
+      "nasa_tropical_days": 224.695,
+      "rel_error_vs_tropical": 2.668485133315806e-05,
+      "turns": 325,
+      "rel_change_when_dt_halved": 3.0564069123026035e-06
+    },
+    {
+      "planet": "Earth",
+      "simulated_days": 365.25662579547406,
+      "nasa_sidereal_days": 365.256,
+      "rel_error_vs_sidereal": 1.7133064866645264e-06,
+      "nasa_tropical_days": 365.242,
+      "rel_error_vs_tropical": 4.004412272971427e-05,
+      "turns": 199,
+      "rel_change_when_dt_halved": 1.1734638030642237e-06
+    },
+    {
+      "planet": "Mars",
+      "simulated_days": 686.977463072661,
+      "nasa_sidereal_days": 686.98,
+      "rel_error_vs_sidereal": -3.6928692815878e-06,
+      "nasa_tropical_days": 686.972,
+      "rel_error_vs_tropical": 7.952394946188508e-06,
+      "turns": 106,
+      "rel_change_when_dt_halved": 3.251700474055319e-07
+    },
+    {
+      "planet": "Jupiter",
+      "simulated_days": 4332.81496944489,
+      "nasa_sidereal_days": 4332.589,
+      "rel_error_vs_sidereal": 5.215575372838842e-05,
+      "nasa_tropical_days": 4330.595,
+      "rel_error_vs_tropical": 0.0005126245804306363,
+      "turns": 16,
+      "rel_change_when_dt_halved": 8.334071161882991e-09
+    },
+    {
+      "planet": "Saturn",
+      "simulated_days": 10756.0971727803,
+      "nasa_sidereal_days": 10755.699,
+      "rel_error_vs_sidereal": 3.701970279200158e-05,
+      "nasa_tropical_days": 10746.94,
+      "rel_error_vs_tropical": 0.0008520725695221377,
+      "turns": 6,
+      "rel_change_when_dt_halved": 1.4486611226820873e-09
+    },
+    {
+      "planet": "Uranus",
+      "simulated_days": 30682.485128350723,
+      "nasa_sidereal_days": 30685.4,
+      "rel_error_vs_sidereal": -9.499213467245697e-05,
+      "nasa_tropical_days": 30588.74,
+      "rel_error_vs_tropical": 0.0030646940132454505,
+      "turns": 2,
+      "rel_change_when_dt_halved": 2.257275497914302e-10
+    },
+    {
+      "planet": "Neptune",
+      "simulated_days": 60197.47399938629,
+      "nasa_sidereal_days": 60189.018,
+      "rel_error_vs_sidereal": 0.00014049073514196752,
+      "nasa_tropical_days": 59799.9,
+      "rel_error_vs_tropical": 0.006648405756302068,
+      "turns": 1,
+      "rel_change_when_dt_halved": 1.2435350905292696e-10
+    }
+  ],
+  "max_abs_rel_error_vs_sidereal": 0.00014049073514196752
+}

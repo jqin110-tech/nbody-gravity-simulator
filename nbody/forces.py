@@ -17,24 +17,23 @@ def direct_accel(
     mass: Array,
     softening: float = 0.0,
     G: float = G_DEFAULT,
-    block: int = 1024,
+    block: int | None = None,
 ) -> Array:
     """Acceleration on every body from every other body, summed exactly in O(N^2).
 
     a_i = G * sum_j m_j (r_j - r_i) / (|r_j - r_i|^2 + eps^2)^(3/2), with j != i.
-    Rows are processed in blocks so memory stays O(block * N) instead of O(N^2).
+    Rows are processed in blocks so temporary arrays stay around 2 million pairs (tens of MB).
     """
     n = len(mass)
+    block = block or max(1, 2_000_000 // max(n, 1))
     acc = np.zeros_like(pos)
     for start in range(0, n, block):
         stop = min(start + block, n)
         diff = pos[None, :, :] - pos[start:stop, None, :]  # (B, N, 3): r_j - r_i
         r2 = np.einsum("bnk,bnk->bn", diff, diff) + softening**2
-        inv_r3 = np.zeros_like(r2)
-        nonzero = r2 > 0.0
-        inv_r3[nonzero] = r2[nonzero] ** -1.5
         rows = np.arange(start, stop)
-        inv_r3[rows - start, rows] = 0.0  # no self-force
+        r2[rows - start, rows] = np.inf  # a body exerts no force on itself: 1 / inf = 0
+        inv_r3 = 1.0 / (r2 * np.sqrt(r2))
         acc[start:stop] = G * np.einsum("bn,bnk->bk", inv_r3 * mass[None, :], diff)
     return acc
 
