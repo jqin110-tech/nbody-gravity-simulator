@@ -15,3 +15,14 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - run: python -m pytest -v
+
+  viewer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Type-check the viewer and run its physics tests
+        working-directory: viewer
+        run: npm ci && npm test

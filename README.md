@@ -4,6 +4,9 @@ A Newtonian gravity simulator in Python. Bodies attract each other, and the prog
 time forward. It runs the real solar system from NASA JPL data and scales to a
 100,000-body galaxy collision using a Barnes-Hut octree compiled with Numba.
 
+**Live demo: <https://jqin110-tech.github.io/nbody-gravity-simulator/>** (a simulation that
+runs in your browser, plus playback of the 100,000-body run).
+
 ![Six snapshots of two disc galaxies colliding](results/stage5_galaxy_frames.png)
 
 **Every number in this file is printed by `python -m scripts.summary`**, which reads the
@@ -21,7 +24,7 @@ Linux cloud machine (Python 3.13, NumPy 2.5, Numba 0.68) and will differ on your
 | Real data | `nbody/solar_system.py` | Loads JPL Horizons vectors and DE440 masses from `data/raw/` |
 | Barnes-Hut | `nbody/barnes_hut.py` | Octree in flat arrays; the same code runs as pure Python or compiled by Numba |
 | Models | `nbody/initial_conditions.py` | Plummer sphere, exponential disc, parabolic encounter |
-| Viewer | `viewer/` | TypeScript + Canvas player for exported frames |
+| Viewer | `viewer/` | TypeScript + Canvas: a live in-browser simulation, and a player for the recorded run |
 
 Units are AU, years and solar masses, so G = 4π² (see `nbody/constants.py`). The galaxy
 demo uses N-body units with G = 1.
@@ -49,7 +52,7 @@ python -m scripts.summary                # prints every number in this README
 The viewer:
 
 ```bash
-cd viewer && npm install && npm run build
+cd viewer && npm install && npm test     # compiles the TypeScript and runs 7 physics tests
 python -m http.server 8000               # then open http://localhost:8000
 ```
 
@@ -201,8 +204,24 @@ start on circular orbits computed from the code's own Barnes-Hut forces.
 The discs grow spiral arms, pass through each other, throw out tidal tails and merge.
 
 - Video: [`results/stage5_galaxy.mp4`](results/stage5_galaxy.mp4) (301 frames).
-- Web viewer: `viewer/` plays 151 frames of a 15,000-body sample with play/pause, a scrub
-  bar and a speed control. `.github/workflows/pages.yml` builds and deploys it to GitHub Pages.
+- Recorded playback: the web viewer plays 151 frames of a 15,000-body sample with
+  play/pause, a scrub bar and a speed control.
+
+### The live browser simulation
+
+The page at the [live demo](https://jqin110-tech.github.io/nbody-gravity-simulator/) opens on
+a simulation that is computed in the browser while you watch, so it never repeats.
+`viewer/src/physics.ts` is the same method as the Python core, written in TypeScript:
+softened direct-sum gravity and leapfrog kick-drift-kick. It starts with one galaxy (a heavy
+central body plus a 1,000-body exponential disc on circular orbits) and a button sends in a
+second, tilted galaxy on a parabolic orbit. You can drag to turn the view and scroll to zoom.
+The page shows the running energy drift, so the conservation check is visible live.
+
+`viewer/test/physics.test.mjs` checks the TypeScript physics the same way the Python is
+checked: Newton's law for two bodies, a circular orbit closing after one Kepler period,
+second-order convergence, bounded energy, and conserved momentum. It uses direct sum, not
+Barnes-Hut, so it is limited to a few thousand bodies; the 100,000-body run stays in Python.
+`.github/workflows/pages.yml` builds the viewer and deploys it to GitHub Pages.
 
 ## Limitations
 
@@ -226,10 +245,10 @@ The discs grow spiral arms, pass through each other, throw out tidal tails and m
   made for a clear picture, and the units are not physical.
 - **Benchmarks come from one shared cloud machine**, so expect different absolute numbers
   elsewhere. Small-N timings (under a millisecond) are the noisiest.
-- **Not yet run on GitHub.** The two workflows in `.github/workflows/` (tests, and
-  deploying the viewer to GitHub Pages) have not been executed, because this repository
-  has no remote yet.
-- The viewer shows a random 15,000-body sample in a 2D projection.
+- **The live browser simulation is small.** It uses the O(N²) direct sum on one thread, so
+  it handles a few thousand bodies, and its galaxy is dominated by one heavy central body
+  to stay stable at that size. Its speed depends on the visitor's device.
+- The recorded playback shows a random 15,000-body sample in a 2D projection.
 
 ## Sources
 

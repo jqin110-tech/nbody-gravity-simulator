@@ -3,34 +3,61 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Galaxy Collision Viewer</title>
+  <title>N-body Gravity Simulator</title>
   <style>
-    :root { --bg: #05060a; --fg: #d8dbe6; --muted: #8a90a3; --accent: #7aa2ff; }
+    :root { --bg: #05060a; --fg: #d8dbe6; --muted: #8a90a3; --accent: #7aa2ff; --panel: #1b2030; --line: #2e3650; }
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.4 system-ui, sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.45 system-ui, sans-serif; }
     main { max-width: 760px; margin: 0 auto; padding: 16px; }
-    h1 { font-size: 20px; margin: 0 0 4px; }
-    p { color: var(--muted); margin: 0 0 12px; }
-    canvas { width: 100%; aspect-ratio: 1; display: block; background: #000; border-radius: 6px; }
-    .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 10px; }
-    button { background: #1b2030; color: var(--fg); border: 1px solid #2e3650; border-radius: 4px; padding: 6px 14px; cursor: pointer; }
+    h1 { font-size: 20px; margin: 0 0 10px; }
+    p { color: var(--muted); margin: 8px 0; }
+    canvas { width: 100%; aspect-ratio: 1; display: block; background: #000; border-radius: 6px; touch-action: none; }
+    #live-sky { cursor: grab; }
+    .tabs, .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 10px 0; }
+    button, select { background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; padding: 6px 12px; font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { opacity: 0.45; cursor: default; }
+    button[aria-pressed="true"] { border-color: var(--accent); color: #fff; }
     input[type=range] { flex: 1 1 200px; accent-color: var(--accent); }
-    #time { font-variant-numeric: tabular-nums; min-width: 9ch; }
+    #live-readout, #time { font-variant-numeric: tabular-nums; }
     label { color: var(--muted); }
   </style>
 </head>
 <body>
   <main>
-    <h1>Two galaxies colliding</h1>
-    <p id="info">Loading frames…</p>
-    <canvas id="sky" width="720" height="720"></canvas>
-    <div class="controls">
-      <button id="play">Pause</button>
-      <input id="scrub" type="range" min="0" max="0" value="0" aria-label="frame">
-      <span id="time"></span>
-      <label>Speed <select id="speed"><option>0.5</option><option selected>1</option><option>2</option><option>4</option></select></label>
-      <label><input id="halo" type="checkbox"> show dark halo</label>
+    <h1>N-body gravity simulator</h1>
+    <div class="tabs">
+      <button id="tab-live" aria-pressed="true">Live simulation</button>
+      <button id="tab-replay" aria-pressed="false">Recorded 100,000-body run</button>
     </div>
+
+    <section id="live-panel">
+      <canvas id="live-sky" width="720" height="720"></canvas>
+      <p id="live-readout">Starting…</p>
+      <div class="controls">
+        <button id="live-pause">Pause</button>
+        <button id="live-collide">Send in a second galaxy</button>
+        <button id="live-reset">Reset</button>
+        <label>Bodies <select id="live-count"><option>500</option><option selected>1000</option><option>2000</option></select></label>
+        <label>Speed <select id="live-speed"><option value="1">1×</option><option value="2" selected>2×</option><option value="4">4×</option></select></label>
+        <label><input id="live-trails" type="checkbox" checked> trails</label>
+      </div>
+      <p>This is computed in your browser as you watch, not played back. Every body pulls on every other body
+        (direct-sum gravity) and a leapfrog integrator steps time forward, the same method as the Python code.
+        Drag to turn the view, scroll to zoom.</p>
+    </section>
+
+    <section id="replay-panel" hidden>
+      <canvas id="sky" width="720" height="720"></canvas>
+      <p id="replay-info">Loading the recording…</p>
+      <div class="controls">
+        <button id="play">Pause</button>
+        <input id="scrub" type="range" min="0" max="0" value="0" aria-label="frame">
+        <span id="time"></span>
+        <label>Speed <select id="speed"><option>0.5</option><option selected>1</option><option>2</option><option>4</option></select></label>
+        <label><input id="halo" type="checkbox"> show dark halo</label>
+      </div>
+    </section>
   </main>
   <script type="module" src="dist/main.js"></script>
 </body>

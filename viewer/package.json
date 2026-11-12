@@ -2,11 +2,13 @@
   "name": "nbody-viewer",
   "private": true,
   "version": "0.1.0",
-  "description": "Plays exported N-body frames on an HTML canvas",
+  "description": "Browser viewer: a live N-body simulation and playback of the recorded 100,000-body run",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "tsc && node --test test/physics.test.mjs"
   },
   "devDependencies": {
     "typescript": "5.6.3"
-  }
+  },
+  "type": "module"
 }

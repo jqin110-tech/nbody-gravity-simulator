@@ -1,133 +1,67 @@
-// Plays frames exported by scripts/stage5_export_viewer.py.
-// data/meta.json describes the run; data/frames.bin holds, for every frame, every particle's
-// (x, y) as little-endian int16 scaled so that +-32767 means +-meta.box; data/groups.bin
-// holds one byte per particle: 0/2 = halo of galaxy 1/2, 1/3 = disc of galaxy 1/2.
+// Entry point: wires the page's buttons to the two modes.
+//   Live      a simulation computed in this browser, step by step (live.ts, physics.ts)
+//   Recorded  playback of the 100,000-body run made with the Python code (replay.ts)
 
-interface Meta {
-  n_particles: number;
-  n_frames: number;
-  box: number;
-  times: number[];
-  n_bodies_simulated: number;
-}
+import { $ } from "./dom.js";
+import { LiveSimulation } from "./live.js";
+import { Player, loadPlayer } from "./replay.js";
 
-// RGB colour added to a pixel by one particle of each group.
-const GROUP_COLOURS: [number, number, number][] = [
-  [70, 50, 35], [255, 160, 80], [35, 50, 70], [90, 160, 255],
-];
-
-function $(id: string): HTMLElement {
-  const el = document.getElementById(id);
-  if (!el) throw new Error(`missing element #${id}`);
-  return el;
-}
-
-async function fetchBytes(url: string): Promise<ArrayBuffer> {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
-  return response.arrayBuffer();
-}
-
-class Player {
-  private frame = 0;
-  private playing = true;
-  private speed = 1;
-  private showHalo = false;
-  private lastTick = 0;
-  private readonly image: ImageData;
-  private readonly light: Float32Array; // accumulated brightness, 3 channels per pixel
-
-  constructor(
-    private readonly meta: Meta,
-    private readonly frames: Int16Array,
-    private readonly groups: Uint8Array,
-    private readonly ctx: CanvasRenderingContext2D,
-  ) {
-    const { width, height } = ctx.canvas;
-    this.image = ctx.createImageData(width, height);
-    this.light = new Float32Array(width * height * 3);
-  }
-
-  /** Splat every particle of one frame into the light buffer, then tone-map it to pixels. */
-  draw(): void {
-    const { width, height } = this.ctx.canvas;
-    const n = this.meta.n_particles;
-    const offset = this.frame * n * 2;
-    this.light.fill(0);
-    for (let i = 0; i < n; i++) {
-      const g = this.groups[i];
-      if (!this.showHalo && (g === 0 || g === 2)) continue;
-      const px = Math.floor(((this.frames[offset + 2 * i] / 32767) * 0.5 + 0.5) * width);
-      const py = Math.floor((0.5 - (this.frames[offset + 2 * i + 1] / 32767) * 0.5) * height);
-      if (px < 0 || px + 1 >= width || py < 0 || py + 1 >= height) continue;
-      const c = GROUP_COLOURS[g];
-      // Each particle lights a 2 x 2 block of pixels.
-      for (const k of [py * width + px, py * width + px + 1, (py + 1) * width + px, (py + 1) * width + px + 1]) {
-        this.light[3 * k] += c[0];
-        this.light[3 * k + 1] += c[1];
-        this.light[3 * k + 2] += c[2];
-      }
-    }
-    const px = this.image.data;
-    for (let p = 0, k = 0; p < width * height; p++, k += 3) {
-      // 1 - exp(-x) keeps a lone particle coloured and lets dense cores saturate smoothly to white.
-      px[4 * p] = 255 * (1 - Math.exp(-this.light[k] / 180));
-      px[4 * p + 1] = 255 * (1 - Math.exp(-this.light[k + 1] / 180));
-      px[4 * p + 2] = 255 * (1 - Math.exp(-this.light[k + 2] / 180));
-      px[4 * p + 3] = 255;
-    }
-    this.ctx.putImageData(this.image, 0, 0);
-    ($("scrub") as HTMLInputElement).value = String(this.frame);
-    $("time").textContent = `t = ${this.meta.times[this.frame].toFixed(2)}`;
-  }
-
-  /** Advance at about 20 frames per second times the chosen speed. */
-  tick = (now: number): void => {
-    if (this.playing && now - this.lastTick > 50 / this.speed) {
-      this.frame = (this.frame + 1) % this.meta.n_frames;
-      this.lastTick = now;
-      this.draw();
-    }
-    requestAnimationFrame(this.tick);
-  };
-
-  bindControls(): void {
-    const play = $("play") as HTMLButtonElement;
-    play.onclick = () => {
-      this.playing = !this.playing;
-      play.textContent = this.playing ? "Pause" : "Play";
-    };
-    const scrub = $("scrub") as HTMLInputElement;
-    scrub.max = String(this.meta.n_frames - 1);
-    scrub.oninput = () => {
-      this.frame = Number(scrub.value);
-      this.draw();
-    };
-    const speed = $("speed") as HTMLSelectElement;
-    speed.onchange = () => (this.speed = Number(speed.value));
-    const halo = $("halo") as HTMLInputElement;
-    halo.onchange = () => {
-      this.showHalo = halo.checked;
-      this.draw();
-    };
-  }
-}
-
-async function main(): Promise<void> {
-  const meta: Meta = await (await fetch("data/meta.json")).json();
-  const [frameBytes, groupBytes] = await Promise.all([fetchBytes("data/frames.bin"), fetchBytes("data/groups.bin")]);
-  const frames = new Int16Array(frameBytes);
-  if (frames.length !== meta.n_frames * meta.n_particles * 2) throw new Error("frames.bin has the wrong size");
-  const ctx = ($("sky") as HTMLCanvasElement).getContext("2d");
+function canvasContext(id: string): CanvasRenderingContext2D {
+  const ctx = ($(id) as HTMLCanvasElement).getContext("2d");
   if (!ctx) throw new Error("no 2D canvas");
-  $("info").textContent = `Showing ${meta.n_particles.toLocaleString()} of ${meta.n_bodies_simulated.toLocaleString()} simulated bodies, `
-    + `${meta.n_frames} frames, N-body units (G = 1). Orange and blue are the two galaxies' discs.`;
-  const player = new Player(meta, frames, new Uint8Array(groupBytes), ctx);
-  player.bindControls();
-  player.draw();
-  requestAnimationFrame(player.tick);
+  return ctx;
 }
 
-main().catch((err: Error) => {
-  $("info").textContent = `Could not load frames: ${err.message}`;
+const live = new LiveSimulation(canvasContext("live-sky"), readout => {
+  $("live-readout").textContent = `${readout.bodies.toLocaleString()} bodies · t = ${readout.time.toFixed(1)} · `
+    + `${readout.msPerStep.toFixed(1)} ms per step · energy drift ${readout.energyDrift.toExponential(1)}`;
 });
+let player: Player | null = null;
+
+function bindLiveControls(): void {
+  const pause = $("live-pause") as HTMLButtonElement;
+  const collide = $("live-collide") as HTMLButtonElement;
+  pause.onclick = () => (pause.textContent = live.togglePause() ? "Play" : "Pause");
+  collide.onclick = () => {
+    live.addCompanion();
+    collide.disabled = true;
+  };
+  ($("live-reset") as HTMLButtonElement).onclick = () => {
+    live.reset();
+    collide.disabled = false;
+  };
+  const count = $("live-count") as HTMLSelectElement;
+  count.onchange = () => {
+    live.setBodyCount(Number(count.value));
+    collide.disabled = false;
+  };
+  const speed = $("live-speed") as HTMLSelectElement;
+  speed.onchange = () => live.setStepsPerFrame(Number(speed.value));
+  const trails = $("live-trails") as HTMLInputElement;
+  trails.onchange = () => live.setTrails(trails.checked);
+}
+
+/** Show one mode and stop the other, so only one animation loop runs at a time. */
+async function showMode(mode: "live" | "replay"): Promise<void> {
+  $("live-panel").hidden = mode !== "live";
+  $("replay-panel").hidden = mode !== "replay";
+  $("tab-live").setAttribute("aria-pressed", String(mode === "live"));
+  $("tab-replay").setAttribute("aria-pressed", String(mode === "replay"));
+  if (mode === "live") {
+    player?.stop();
+    live.start();
+    return;
+  }
+  live.stop();
+  try {
+    player ??= await loadPlayer($("sky") as HTMLCanvasElement); // the 9 MB of frames load only when asked for
+    player.start();
+  } catch (err) {
+    $("replay-info").textContent = `Could not load the recording: ${(err as Error).message}`;
+  }
+}
+
+bindLiveControls();
+$("tab-live").onclick = () => showMode("live");
+$("tab-replay").onclick = () => showMode("replay");
+showMode("live");
