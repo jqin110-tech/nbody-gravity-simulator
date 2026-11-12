@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Galaxy Collision Viewer</title>
+  <style>
+    :root { --bg: #05060a; --fg: #d8dbe6; --muted: #8a90a3; --accent: #7aa2ff; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.4 system-ui, sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 16px; }
+    h1 { font-size: 20px; margin: 0 0 4px; }
+    p { color: var(--muted); margin: 0 0 12px; }
+    canvas { width: 100%; aspect-ratio: 1; display: block; background: #000; border-radius: 6px; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 10px; }
+    button { background: #1b2030; color: var(--fg); border: 1px solid #2e3650; border-radius: 4px; padding: 6px 14px; cursor: pointer; }
+    input[type=range] { flex: 1 1 200px; accent-color: var(--accent); }
+    #time { font-variant-numeric: tabular-nums; min-width: 9ch; }
+    label { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Two galaxies colliding</h1>
+    <p id="info">Loading frames…</p>
+    <canvas id="sky" width="720" height="720"></canvas>
+    <div class="controls">
+      <button id="play">Pause</button>
+      <input id="scrub" type="range" min="0" max="0" value="0" aria-label="frame">
+      <span id="time"></span>
+      <label>Speed <select id="speed"><option>0.5</option><option selected>1</option><option>2</option><option>4</option></select></label>
+      <label><input id="halo" type="checkbox"> show dark halo</label>
+    </div>
+  </main>
+  <script type="module" src="dist/main.js"></script>
+</body>
+</html>

@@ -6,3 +6,4 @@ results/frames/
 viewer/node_modules/
 viewer/dist/
 .env
+results/*.npz

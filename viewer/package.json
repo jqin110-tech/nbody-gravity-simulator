@@ -1,0 +1,12 @@
+{
+  "name": "nbody-viewer",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Plays exported N-body frames on an HTML canvas",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "5.6.3"
+  }
+}
