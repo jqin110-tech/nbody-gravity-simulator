@@ -132,8 +132,8 @@ uses the sidereal periods on each planet's own fact sheet.
 
 ### Stage 4: making it fast
 
-**Profile first.** For 2,000 bodies in pure Python, the Barnes-Hut tree walk takes 98.9%
-of the 2.55 s (`results/stage4_profile.txt`). That loop cannot be vectorised with NumPy
+**Profile first.** For 2,000 bodies in pure Python, the Barnes-Hut tree walk takes 98.6%
+of the 3.24 s (`results/stage4_profile.json`; the profile itself is in `results/stage4_profile.txt`). That loop cannot be vectorised with NumPy
 because each body takes a different path through the tree, so it was compiled with Numba.
 
 **Force error against the opening angle θ**, for a 20,000-body Plummer sphere, compared

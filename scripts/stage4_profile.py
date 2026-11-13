@@ -24,7 +24,7 @@ def main() -> None:
     bh_accel(system.pos, system.mass, THETA, EPS, G=1.0, backend="python")
     profiler.disable()
     text = io.StringIO()
-    pstats.Stats(profiler, stream=text).sort_stats("cumulative").print_stats(12)
+    pstats.Stats(profiler, stream=text).strip_dirs().sort_stats("cumulative").print_stats(12)
     report = text.getvalue()
     print(report)
     (RESULTS / "stage4_profile.txt").write_text(report)
